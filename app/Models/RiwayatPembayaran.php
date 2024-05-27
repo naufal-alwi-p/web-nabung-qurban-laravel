@@ -9,13 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RiwayatPembayaran extends Model
 {
-    use HasFactory, HasUlids;
+    use HasFactory;
 
     protected $table = 'riwayat_pembayaran';
-
-    public $incrementing = false;
-
-    protected $keyType = 'string';
 
     public function pembelianQurban(): BelongsTo {
         return $this->belongsTo(PembelianQurban::class);

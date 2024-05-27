@@ -14,8 +14,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pembelian_qurban', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->foreignIdFor(User::class);
+            $table->id();
+            $table->char('user_nik', 16);
             $table->foreignIdFor(HewanQurban::class);
             $table->enum('tipe_angsuran', ['per Minggu', 'per Bulan']);
             $table->integer('biaya_per_bulan', unsigned: true);

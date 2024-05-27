@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('riwayat_pembayaran', function (Blueprint $table) {
-            $table->ulid('id')->primary();
+            $table->id();
             $table->foreignIdFor(PembelianQurban::class);
             $table->dateTime('waktu');
             $table->integer('biaya', unsigned:true);
