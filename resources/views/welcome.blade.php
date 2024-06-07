@@ -160,6 +160,13 @@
                                 </div>
                             </div>
                         </div>
+
+                        @auth
+                            <form action="/user/logout" method="POST">
+                                @csrf
+                                <button type="submit">Logout</button>
+                            </form>
+                        @endauth
                     </main>
 
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70">
