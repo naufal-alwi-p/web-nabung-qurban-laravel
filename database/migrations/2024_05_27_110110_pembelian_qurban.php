@@ -18,8 +18,10 @@ return new class extends Migration
             $table->char('user_nik', 16);
             $table->foreignIdFor(HewanQurban::class);
             $table->enum('tipe_angsuran', ['per Minggu', 'per Bulan']);
-            $table->integer('biaya_per_bulan', unsigned: true);
-            $table->integer('banyak_angsuran');
+            $table->integer('biaya_per_periode', unsigned: true);
+            $table->integer('total_uang', unsigned: true);
+            $table->integer('sisa_angsuran');
+            $table->date('jatuh_tempo');
             $table->enum('status', ['Berhasil', 'Sedang Angsuran', 'Refund']);
         });
     }

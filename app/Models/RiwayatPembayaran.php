@@ -12,6 +12,8 @@ class RiwayatPembayaran extends Model
 
     protected $table = 'riwayat_pembayaran';
 
+    public $timestamps = false;
+
     public function pembelianQurban(): BelongsTo {
         return $this->belongsTo(PembelianQurban::class);
     }

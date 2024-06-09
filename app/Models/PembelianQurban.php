@@ -13,6 +13,19 @@ class PembelianQurban extends Model
 
     protected $table = 'pembelian_qurban';
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'user_nik',
+        'hewan_qurban_id',
+        'tipe_angsuran',
+        'biaya_per_periode',
+        'total_uang',
+        'sisa_angsuran',
+        'jatuh_tempo',
+        'status'
+    ];
+
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }

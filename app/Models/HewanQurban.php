@@ -12,6 +12,8 @@ class HewanQurban extends Model
 
     protected $table = "hewan_qurban";
 
+    public $timestamps = false;
+
     public function pembelianQurban(): HasMany {
         return $this->hasMany(PembelianQurban::class);
     }
