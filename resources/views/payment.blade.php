@@ -100,8 +100,7 @@
             },
             onError: function (result) {
                 /* You may add your own implementation here */
-                console.log(result);
-                // window.location.replace('http://qurban-kolektif.test/user/dashboard');
+                window.location.replace('http://qurban-kolektif.test/user/dashboard');
             }
         });
         });
