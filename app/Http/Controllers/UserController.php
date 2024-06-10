@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\HariRayaIdulAdha;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 
@@ -41,7 +42,17 @@ class UserController extends Controller
 
         $hewan_qurban = Auth::user()->pembelianQurban()->where('status', 'Sedang Angsuran')->first() ?? false;
 
-        return view('dashboard', ['title' => Auth::user()->name . " | Dashboard", 'hewan_qurban' => $hewan_qurban]);
+        $jatuh_tempo = Carbon::parse($hewan_qurban->jatuh_tempo);
+
+        $jumlah_angsuran = Carbon::now()->diffInWeeks($jatuh_tempo);
+
+        $paksa_alihkan = false;
+
+        if ($jumlah_angsuran < 1) {
+            $paksa_alihkan = true;
+        }
+
+        return view('dashboard', ['title' => Auth::user()->name . " | Dashboard", 'hewan_qurban' => $hewan_qurban, 'paksa_alihkan' => $paksa_alihkan]);
     }
 
     public function userRegisterHandling(Request $request) {

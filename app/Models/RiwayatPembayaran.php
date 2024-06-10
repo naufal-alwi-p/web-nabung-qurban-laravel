@@ -14,6 +14,11 @@ class RiwayatPembayaran extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'waktu',
+        'biaya'
+    ];
+
     public function pembelianQurban(): BelongsTo {
         return $this->belongsTo(PembelianQurban::class);
     }

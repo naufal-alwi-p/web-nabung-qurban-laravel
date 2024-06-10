@@ -20,9 +20,19 @@
 
 @section('content')
     @if ($hewan_qurban)
-        {{-- <h1 class="text-center my-5">Hewan Qurban</h1> --}}
-
         <div class="container my-5">
+            @if (session('status') === true)
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Pembayaran Berhasil.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @elseif (session('status') === false)
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Pembayaran Gagal.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <div class="card">
                 <h1 class="card-title text-center fw-bold mt-3 mb-5">Hewan Qurban</h1>
                 <div class="self-w-img mx-auto mb-3">
@@ -43,7 +53,7 @@
                         <hr>
                         <div class="row">
                             <p class="col-md fw-bold">Angsuran ({{ $hewan_qurban->tipe_angsuran }}):</p>
-                            <p class="col-md text-start text-md-end">{{ explode(',', Illuminate\Support\Number::currency($hewan_qurban->biaya_per_periode, 'IDR', 'id'))[0] }}</p>
+                            <p class="col-md text-start text-md-end">{{ explode(',', Illuminate\Support\Number::currency($hewan_qurban->sisa_angsuran == 1 ? $hewan_qurban->hewanQurban->harga - $hewan_qurban->total_uang : $hewan_qurban->biaya_per_periode, 'IDR', 'id'))[0] }}</p>
                         </div>
                         <hr>
                         <div class="row">
@@ -56,7 +66,7 @@
                             <p class="col-md text-start text-md-end">{{ Illuminate\Support\Carbon::parse($hewan_qurban->jatuh_tempo)->format('d M Y') }}</p>
                         </div>
                         <div class="row">
-                            <a href="#" class="btn btn-success col-md-2 mb-3 mb-md-0">Bayar</a>
+                            <a href="/user/payment" class="btn btn-success col-md-2 mb-3 mb-md-0">Bayar</a>
                             <div class="col-md-5"></div>
                             <button type="button" class="btn btn-dark col-md-2 mb-3 mb-md-0" data-bs-toggle="modal" data-bs-target="#dialihkan_modal">Dialihkan</button>
                             <div class="col-md-1"></div>
@@ -112,6 +122,29 @@
             </div>
             </div>
         </div>
+
+        @if ($paksa_alihkan)
+            {{-- Modal Paksa Alihkan --}}
+            <div class="modal fade" id="paksa_alihkan" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paksa_alihkan_label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="paksa_alihkan_label">Peringatan !</h1>
+                    </div>
+                    <div class="modal-body">
+                        Sudah tidak bisa melakukan angsuran qurban tahun ini. Biaya qurban anda dialihkan untuk tahun depan
+                    </div>
+                    <div class="modal-footer">
+                        <form action="/payment/dialihkan" method="post">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $hewan_qurban->id }}">
+                            <button type="submit" class="btn btn-dark">Alihkan</button>
+                        </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+        @endif
     @else
         <div class="self-full-height container-sm mb-5 mb-lg-0">
             <h1 class="text-center my-5">Pilih Hewan Qurban</h1>
@@ -140,3 +173,12 @@
         </div>
     @endif
 @endsection
+
+@if ($paksa_alihkan)
+    @section('script')
+        <script>
+            const autoModal = new bootstrap.Modal("#paksa_alihkan");
+            autoModal.show();
+        </script>
+    @endsection
+@endif
