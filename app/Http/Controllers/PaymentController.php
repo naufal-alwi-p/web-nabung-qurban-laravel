@@ -10,7 +10,6 @@ use App\TipeAngsuran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Number;
 use Illuminate\Validation\Rule;
 
@@ -92,7 +91,7 @@ class PaymentController extends Controller
 
             if ($hewan_qurban) {
                 $riwayat_bayar = new RiwayatPembayaran([
-                    'waktu' => explode(' ', $request->json('transaction_time'))[0],
+                    'waktu' => $request->json('transaction_time'),
                     'biaya' => $bayar
                 ]);
 
@@ -209,5 +208,21 @@ class PaymentController extends Controller
         } else {
             return redirect('/');
         }
+    }
+
+    public function paymentHistory() {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+// dd(Auth::user()->pembelianQurban->count());
+        return view('paymentHistory', ['title' => Auth::user()->name . ' | Riwayat Pembayaran', 'allHewanQurban' => Auth::user()->pembelianQurban]);
+    }
+
+    public function riwayatQurban() {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        return view('riwayatQurban', ['title' => Auth::user()->name . ' | Riwayat Qurban', 'allHewanQurban' => Auth::user()->pembelianQurban]);
     }
 }

@@ -55,6 +55,14 @@ class UserController extends Controller
         return view('dashboard', ['title' => Auth::user()->name . " | Dashboard", 'hewan_qurban' => $hewan_qurban, 'paksa_alihkan' => $paksa_alihkan]);
     }
 
+    public function viewDetailAkun() {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+
+        return view('detail', ['title' => Auth::user()->name . ' | Detail', 'user' => Auth::user()]);
+    }
+
     public function userRegisterHandling(Request $request) {
         $data = $request->validate([
             'nik' => 'required|numeric|digits:16',
@@ -88,6 +96,32 @@ class UserController extends Controller
         return back()->withErrors([
             'login' => 'Gagal login'
         ]);
+    }
+
+    public function userUpdateHandling(Request $request) {
+        if (!Auth::check()) {
+            return redirect('/');
+        }
+        $data = $request->validate([
+            'name' => 'required|ascii',
+            'email' => 'required|email:rfc,dns,spoof',
+            'telepon' => 'required|numeric|digits_between:11,15',
+            'password' => 'required|current_password'
+        ]);
+
+        $user = Auth::user();
+
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->telepon = $data['telepon'];
+
+        if ($user->save()) {
+            $request->session()->flash('update', true);
+        } else {
+            $request->session()->flash('update', false);
+        }
+
+        return redirect('/user/detail');
     }
 
     public function userLogoutHandling(Request $request) {

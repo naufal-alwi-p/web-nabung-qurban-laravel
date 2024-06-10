@@ -28,7 +28,7 @@
                         Profile
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Detail Akun</a></li>
+                        <li><a class="dropdown-item" href="/user/detail">Detail Akun</a></li>
                         <li><form action="/user/logout" method="post">@csrf<button class="dropdown-item text-danger">Logout</button></form></li>
                     </ul>
                 </li>
