@@ -23,3 +23,6 @@ Route::post('/user/daftar-qurban', [PaymentController::class, 'pembayaranQurbanH
 
 Route::post('/get/harga-hewan', [PaymentController::class, 'getHargaHewan']);
 Route::post('/get/tanggal-idul-adha', [UserController::class, 'getTanggalIduAdha']);
+
+Route::post('/payment/dialihkan', [PaymentController::class, 'qurbanDialihkanTahunDepan']);
+Route::post('/payment/refund', [PaymentController::class, 'qurbanRefund']);

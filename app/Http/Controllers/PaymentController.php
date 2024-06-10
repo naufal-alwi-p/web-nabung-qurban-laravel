@@ -21,10 +21,12 @@ class PaymentController extends Controller
             return redirect('/user/dashboard');
         }
 
+        $jatuh_tempo = HariRayaIdulAdha::find(Carbon::now()->year);
+
         $data = [
             'title' => 'Form Pendaftaran Qurban',
             'hewan_qurban' => HewanQurban::all(),
-            'jatuh_tempo' => HariRayaIdulAdha::find(Carbon::now()->year)->tanggal
+            'jatuh_tempo' => $jatuh_tempo->tanggal,
         ];
 
         return view('form.daftarQurban', $data);
@@ -54,10 +56,6 @@ class PaymentController extends Controller
         }
 
         $biaya_per_angsuran = $hewan->harga / $jumlah_angsuran;
-
-        // if ($jumlah_angsuran > 0) {
-        //     $biaya_per_angsuran = $hewan->harga / $jumlah_angsuran;
-        // }
 
         $data = [
             'harga_readable' => explode(',', Number::currency($hewan->harga, 'IDR', 'id'))[0],
@@ -92,5 +90,38 @@ class PaymentController extends Controller
         PembelianQurban::create($data);
 
         return redirect()->intended('/user/dashboard');
+    }
+
+    public function qurbanDialihkanTahunDepan(Request $request) {
+        if (Auth::check()) {
+            $hewan_qurban = Auth::user()->pembelianQurban()->where('id', $request->integer('id'))->first() ?? false;
+    
+            if ($hewan_qurban) {
+                $hari_raya = HariRayaIdulAdha::find(Carbon::parse($hewan_qurban->jatuh_tempo)->year + 1);
+                $hewan_qurban->jatuh_tempo = $hari_raya->tanggal;
+                Auth::user()->pembelianQurban()->save($hewan_qurban);
+                return redirect()->back();
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('/');
+        }
+    }
+
+    public function qurbanRefund(Request $request) {
+        if (Auth::check()) {
+            $hewan_qurban = Auth::user()->pembelianQurban()->where('id', $request->integer('id'))->first() ?? false;
+    
+            if ($hewan_qurban) {
+                $hewan_qurban->status = "Refund";
+                Auth::user()->pembelianQurban()->save($hewan_qurban);
+                return redirect()->back();
+            } else {
+                return redirect()->back();
+            }
+        } else {
+            return redirect('/');
+        }
     }
 }

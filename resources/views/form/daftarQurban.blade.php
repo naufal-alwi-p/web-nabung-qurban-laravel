@@ -157,6 +157,11 @@
                         getTanggalIdulAdha();
                         check.disabled = true;
                         peringatan.innerHTML = "Sudah tidak bisa melakukan angsuran qurban tahun ini. Biaya qurban anda dialihkan untuk tahun depan";
+                    } else {
+                        check.checked = false;
+                        getTanggalIdulAdha();
+                        check.disabled = false;
+                        peringatan.innerHTML = "";
                     }
                 }).catch((error) => {
                     console.log(error);
@@ -166,11 +171,6 @@
                 tag_angsuran.innerHTML = '-';
                 input_angsuran.value = 0;
                 input_jumlah_angsuran.value = '-';
-
-                check.checked = false;
-                getTanggalIdulAdha();
-                check.disabled = false;
-                peringatan.innerHTML = "";
             }
         }
 

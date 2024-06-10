@@ -58,12 +58,58 @@
                         <div class="row">
                             <a href="#" class="btn btn-success col-md-2 mb-3 mb-md-0">Bayar</a>
                             <div class="col-md-5"></div>
-                            <a href="#" class="btn btn-dark col-md-2 mb-3 mb-md-0">Dialihkan</a>
+                            <button type="button" class="btn btn-dark col-md-2 mb-3 mb-md-0" data-bs-toggle="modal" data-bs-target="#dialihkan_modal">Dialihkan</button>
                             <div class="col-md-1"></div>
-                            <a href="#" class="btn btn-danger col-md-2 mb-3 mb-md-0">Refund</a>
+                            <button type="button" class="btn btn-danger col-md-2" data-bs-toggle="modal" data-bs-target="#refund_modal">Refund</button>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        
+        {{-- Modal Dialihkan --}}
+        <div class="modal fade" id="dialihkan_modal" tabindex="-1" aria-labelledby="dialihkan_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="dialihkan_modal_label">Konfirmasi</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Uangmu akan dialihkan untuk qurban tahun depan. Apakah kamu yakin ?
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                <form action="/payment/dialihkan" method="post">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $hewan_qurban->id }}">
+                    <button type="submit" class="btn btn-dark">Konfirmasi</button>
+                </form>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        {{-- Modal Refund --}}
+        <div class="modal fade" id="refund_modal" tabindex="-1" aria-labelledby="refund_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="refund_modal_label">Konfirmasi</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Uangmu akan dikembalikan. Apakah kamu yakin ?
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <form action="/payment/refund" method="post">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $hewan_qurban->id }}">
+                    <button type="submit" class="btn btn-danger">Refund</button>
+                </form>
+                </div>
+            </div>
             </div>
         </div>
     @else
