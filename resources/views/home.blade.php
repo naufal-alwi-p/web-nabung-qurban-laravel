@@ -106,23 +106,45 @@
         <h2 class="text-center my-5">Tentukan Metode Pilihanmu</h2>
 
         <div class="d-flex justify-content-evenly flex-wrap row-gap-3 mb-5">
-            <div class="card" style="width: 18rem; height: 20rem;">
+            <div class="card" style="width: 18rem; height: 23rem;">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <h3 class="card-title fs-4 fw-bolder text-center">Perminggu</h3>
+                    <h3 class="card-title fs-4 fw-bolder text-center">Per minggu</h3>
                     <p class="card-text">Memulai pembayaran secara berkala setiap minggunya dengan harga yang sudah ditetapkan</p>
                     <hr class="opacity-100">
-                    <p><span class="fw-bold">Rp xxx</span>/minggu</p>
-                    <a href="#" class="btn btn-dark">Pilih</a>
+                    <div class="row">
+                        <p class="col">Kambing:</p>
+                        <p class="col"><span class="fw-bold">{{ explode(',', Illuminate\Support\Number::currency($per_minggu['Kambing'], 'IDR', 'id'))[0] }}</span>/minggu</p>
+                    </div>
+                    <div class="row">
+                        <p class="col">Sapi:</p>
+                        <p class="col"><span class="fw-bold">{{ explode(',', Illuminate\Support\Number::currency($per_minggu['Sapi'], 'IDR', 'id'))[0] }}</span>/minggu</p>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col fw-bold">Jatuh Tempo:</div>
+                        <div class="col text-end">{{ $jatuh_tempo }}</div>
+                    </div>
+                    <a href="/user/daftar-qurban" class="btn btn-dark">Pilih</a>
                 </div>
             </div>
 
-            <div class="card" style="width: 18rem; height: 20rem;">
+            <div class="card" style="width: 18rem; height: 23rem;">
                 <div class="card-body d-flex flex-column justify-content-between">
-                    <h3 class="card-title fs-4 fw-bolder text-center">Perbulan</h3>
+                    <h3 class="card-title fs-4 fw-bolder text-center">Per bulan</h3>
                     <p class="card-text">Memulai pembayaran secara berkala setiap bulannya dengan harga yang sudah ditetapkan</p>
                     <hr class="opacity-100">
-                    <p><span class="fw-bold">Rp xxx</span>/bulan</p>
-                    <a href="#" class="btn btn-dark">Pilih</a>
+                    <div class="row">
+                        <p class="col">Kambing:</p>
+                        <p class="col"><span class="fw-bold">{{ explode(',', Illuminate\Support\Number::currency($per_bulan['Kambing'], 'IDR', 'id'))[0] }}</span>/bulan</p>
+                    </div>
+                    <div class="row">
+                        <p class="col">Sapi:</p>
+                        <p class="col"><span class="fw-bold">{{ explode(',', Illuminate\Support\Number::currency($per_bulan['Sapi'], 'IDR', 'id'))[0] }}</span>/bulan</p>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col fw-bold">Jatuh Tempo:</div>
+                        <div class="col text-end">{{ $jatuh_tempo }}</div>
+                    </div>
+                    <a href="/user/daftar-qurban" class="btn btn-dark">Pilih</a>
                 </div>
             </div>
         </div>
@@ -132,21 +154,17 @@
         <h2 class="text-center my-5">Pilihan Opsional</h2>
 
         <div class="d-flex justify-content-evenly flex-wrap row-gap-3 mb-5">
-            <div class="card" style="width: 18rem; height: 23rem;">
+            <div class="card" style="width: 18rem; height: 14rem;">
                 <div class="card-body d-flex flex-column justify-content-between">
                     <h3 class="card-title fs-4 fw-bolder text-center">Dialihkan</h3>
-                    <p class="card-text">Memulai pembayaran secara berkala setiap bulannya dengan harga yang sudah ditetapkan, namun apabila masihbelum memuhi. Maka dana akan dialhikan utuk Qurban di tahun depan</p>
-                    <hr class="opacity-100">
-                    <p><span class="fw-bold">Rp xxx</span>/minggu</p>
-                    <a href="#" class="btn btn-secondary">Pilih</a>
+                    <p class="card-text">Memulai pembayaran secara berkala setiap bulannya dengan harga yang sudah ditetapkan, namun apabila masih belum memuhi. Maka dana akan dialihkan untuk Qurban di tahun depan</p>
                 </div>
             </div>
 
-            <div class="card" style="width: 18rem; height: 23rem;">
+            <div class="card" style="width: 18rem; height: 14rem;">
                 <div class="card-body d-flex flex-column justify-content-between">
                     <h3 class="card-title fs-4 fw-bolder text-center">Refund</h3>
                     <p class="card-text">Memulai pembayaran secara berkala setiap bulannya dengan harga yang sudah ditetapkan, apabila masih belum memuhi. Maka dana akan dialihkan untuk Qurban tahun depan</p>
-                    <a href="#" class="btn btn-secondary">Pilih</a>
                 </div>
             </div>
         </div>

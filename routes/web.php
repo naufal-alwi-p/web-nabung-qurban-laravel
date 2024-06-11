@@ -4,9 +4,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home', ['title' => 'Homepage']);
-});
+Route::get('/', [UserController::class, 'viewHome']);
 
 Route::get('/user/register', [UserController::class, 'viewUserRegister']);
 Route::post('/user/register', [UserController::class, 'userRegisterHandling']);

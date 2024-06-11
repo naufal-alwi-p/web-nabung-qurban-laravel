@@ -18,7 +18,6 @@
             background-image: linear-gradient(rgba(10, 255, 78, 1), rgba(10, 255, 78, 0));
             background-size: cover;
             background-position: center;
-            height: 100vh;
         }
         .login-section {
             background-color: white;

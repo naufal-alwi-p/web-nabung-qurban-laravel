@@ -17,7 +17,7 @@ class PaymentController extends Controller
 {
     public function viewPendaftaranQurban() {
         if (!Auth::check()) {
-            return redirect('/');
+            return redirect('/user/login');
         } else if (Auth::user()->pembelianQurban()->where('status', 'Sedang Angsuran')->count() === 1) {
             return redirect('/user/dashboard');
         }
@@ -155,7 +155,7 @@ class PaymentController extends Controller
 
     public function pembayaranQurbanHandling(Request $request) {
         if (!Auth::check()) {
-            return redirect('/');
+            return redirect('/user/login');
         } else if (Auth::user()->pembelianQurban()->where('status', 'Sedang Angsuran')->count() === 1) {
             return redirect('/user/dashboard');
         }

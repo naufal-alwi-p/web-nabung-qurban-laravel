@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\HariRayaIdulAdha;
+use App\Models\HewanQurban;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,6 +20,44 @@ class UserController extends Controller
         $tanggal = HariRayaIdulAdha::find($request->json('tahun'));
 
         return response()->json(['tanggal' => $tanggal->tanggal]);
+    }
+
+    public function viewHome() {
+        $hewan_qurban = HewanQurban::all();
+        $tanggal = HariRayaIdulAdha::find(Carbon::now()->year);
+
+        $jumlah_angsuran_per_minggu = round(Carbon::now()->diffInWeeks($tanggal->tanggal), mode: PHP_ROUND_HALF_DOWN);
+        $jumlah_angsuran_per_bulan = round(Carbon::now()->diffInMonths($tanggal->tanggal), mode: PHP_ROUND_HALF_DOWN);
+
+        if ($jumlah_angsuran_per_minggu < 2) {
+            $tanggal = HariRayaIdulAdha::find(Carbon::now()->year + 1);
+
+            $jumlah_angsuran_per_minggu = round(Carbon::now()->diffInWeeks($tanggal->tanggal), mode: PHP_ROUND_HALF_DOWN);
+        }
+
+        if ($jumlah_angsuran_per_bulan < 2) {
+            $tanggal = HariRayaIdulAdha::find(Carbon::now()->year + 1);
+
+            $jumlah_angsuran_per_bulan = round(Carbon::now()->diffInMonths($tanggal->tanggal), mode: PHP_ROUND_HALF_DOWN);
+        }
+
+        $biaya_per_minggu = [];
+        $biaya_per_bulan = [];
+
+        foreach ($hewan_qurban as $hewan) {
+            $biaya_per_minggu[$hewan->nama] = floor($hewan->harga / $jumlah_angsuran_per_minggu);
+
+            $biaya_per_bulan[$hewan->nama] = floor($hewan->harga / $jumlah_angsuran_per_bulan);
+        }
+
+        $data = [
+            'title' => 'Homepage',
+            'per_minggu' => $biaya_per_minggu,
+            'per_bulan' => $biaya_per_bulan,
+            'jatuh_tempo' => Carbon::parse($tanggal->tanggal)->format('Y-m-d')
+        ];
+
+        return view('home', $data);
     }
 
     public function viewUserRegister() {
@@ -42,14 +81,17 @@ class UserController extends Controller
 
         $hewan_qurban = Auth::user()->pembelianQurban()->where('status', 'Sedang Angsuran')->first() ?? false;
 
-        $jatuh_tempo = Carbon::parse($hewan_qurban->jatuh_tempo);
-
-        $jumlah_angsuran = Carbon::now()->diffInWeeks($jatuh_tempo);
-
         $paksa_alihkan = false;
 
-        if ($jumlah_angsuran < 1) {
-            $paksa_alihkan = true;
+        if ($hewan_qurban) {
+            $jatuh_tempo = Carbon::parse($hewan_qurban->jatuh_tempo);
+    
+            $jumlah_angsuran = Carbon::now()->diffInWeeks($jatuh_tempo);
+    
+    
+            if ($jumlah_angsuran < 1) {
+                $paksa_alihkan = true;
+            }
         }
 
         return view('dashboard', ['title' => Auth::user()->name . " | Dashboard", 'hewan_qurban' => $hewan_qurban, 'paksa_alihkan' => $paksa_alihkan]);

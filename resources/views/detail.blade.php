@@ -19,7 +19,7 @@
 @endsection
 
 @section('content')
-    <div class="row">
+    <div class="row w-100">
         <div class="col-lg-3 self-bg-row-menu">
             <div class="mx-3">
                 <h2 class="my-5">Menu</h2>

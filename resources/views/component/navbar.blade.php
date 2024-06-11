@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top navbar-expand-lg self-bg-1">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="/">Qurban Kolektif</a>
+        <a class="navbar-brand fw-bold" href="/">E-Qurban</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
